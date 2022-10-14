@@ -5,11 +5,11 @@ from scrape_me import ScrapeMe
     
 class ScrapeMeJO(ScrapeMe):
     
-    def scrape(self, soup: BeautifulSoup, old_style: bool=False) -> dict[str, Union[str, list[str]]]:
+    def scrape(self, soup: BeautifulSoup) -> dict[str, Union[str, list[str]]]:
         result: dict[str, Union[str, list[str]]] = {}
         result['title'] = self.scrape_title(soup)
         result['ingredients'] = self.scrape_ingredients(soup)
-        result['instructions'] = self.scrape_instructions(soup, old_style)
+        result['instructions'] = self.scrape_instructions(soup)
         return result
     
     def scrape_title(self, soup: BeautifulSoup) -> str:
@@ -22,17 +22,18 @@ class ScrapeMeJO(ScrapeMe):
             result.append(' '.join(elem.get_text().split()))
         return result
 
-    def scrape_instructions(self, soup:BeautifulSoup, old_style: bool=False) -> list[str]:
+    def scrape_instructions(self, soup:BeautifulSoup) -> list[str]:
         result: list[str] = []
-        if (old_style):
-            soup_instructions = soup.find(class_="method-p")
-            for elem in soup_instructions.find("div"):
+        soup_instructions = soup.find(class_="recipeSteps")
+        if (soup_instructions is None):
+            old_instructions = soup.find(class_="method-p")
+            for elem in old_instructions.find("div"):
                 text = elem.getText()
                 text = text.strip()
                 if text:
                     result.append(text)
         else:
-            soup_instructions = soup.find(class_="recipeSteps")
+            
             for id, elem in enumerate(soup_instructions.find_all("li")):
                 result.append(str(id+1) + ". " + elem.get_text())
         
