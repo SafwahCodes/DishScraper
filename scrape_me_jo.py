@@ -25,7 +25,12 @@ class ScrapeMeJO(ScrapeMe):
     def scrape_instructions(self, soup:BeautifulSoup, old_style: bool=False) -> list[str]:
         result: list[str] = []
         if (old_style):
-            result.append(soup.find(class_="method-p").find("div").getText())
+            soup_instructions = soup.find(class_="method-p")
+            for elem in soup_instructions.find("div"):
+                text = elem.getText()
+                text = text.strip()
+                if text:
+                    result.append(text)
         else:
             soup_instructions = soup.find(class_="recipeSteps")
             for id, elem in enumerate(soup_instructions.find_all("li")):
