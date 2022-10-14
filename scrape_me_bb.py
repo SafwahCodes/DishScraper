@@ -1,15 +1,8 @@
 from bs4 import BeautifulSoup
-from typing import Union
 
 from scrape_me import ScrapeMe
     
 class ScrapeMeBB(ScrapeMe):
-    def scrape(self, soup: BeautifulSoup) -> dict[str, Union[str, list[str]]]:
-        result: dict[str, Union[str, list[str]]] = {}
-        result['title'] = self.scrape_title(soup)
-        result['ingredients'] = self.scrape_ingredients(soup)
-        result['instructions'] = self.scrape_instructions(soup)
-        return result
     
     def scrape_title(self, soup: BeautifulSoup) -> str:
         return soup.find(class_="wprm-recipe-name").get_text()
