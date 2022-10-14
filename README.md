@@ -8,4 +8,4 @@ An example of how to use the library can be found in example.py.
 ## Websites that can be used with this tool
 
 - BudgetBytes (www.budgetbytes.com)
-
+- Jamie Oliver (www.jamieoliver.com) - takes into account the new and old style recipe format
